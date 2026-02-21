@@ -45,7 +45,6 @@ RUN apt-get update && apt-get install -y ffmpeg && rm -rf /var/lib/apt/lists/*
 
 ENV NODE_ENV=production
 ENV DATA_DIR=/data
-ENV PGLITE_DIR=/data/pglite
 
 COPY --from=builder /repo/node_modules /repo/node_modules
 COPY --from=builder /repo/packages/happy-wire /repo/packages/happy-wire
@@ -56,4 +55,4 @@ EXPOSE 3005
 
 WORKDIR /repo/packages/happy-server
 
-CMD ["sh", "-c", "/repo/node_modules/.bin/tsx sources/standalone.ts migrate && exec /repo/node_modules/.bin/tsx sources/standalone.ts serve"]
+CMD ["sh", "-c", "if [ -n \"$DATABASE_URL\" ]; then npx prisma migrate deploy; else /repo/node_modules/.bin/tsx sources/standalone.ts migrate; fi && exec /repo/node_modules/.bin/tsx sources/standalone.ts serve"]
