@@ -85,6 +85,13 @@ export async function startHappyServer(client: ApiSessionClient) {
     //
 
     const server = createServer(async (req, res) => {
+        // Claude Code probes for OAuth metadata before connecting.
+        // Return 404 to signal that no auth is required.
+        if (req.url?.startsWith('/.well-known/')) {
+            res.writeHead(404).end();
+            return;
+        }
+
         const transport = new StreamableHTTPServerTransport({
             sessionIdGenerator: undefined
         });
