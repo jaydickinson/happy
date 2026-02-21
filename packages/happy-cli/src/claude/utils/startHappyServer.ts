@@ -74,18 +74,21 @@ export async function startHappyServer(client: ApiSessionClient) {
         }
     });
 
-    const transport = new StreamableHTTPServerTransport({
-        // NOTE: Returning session id here will result in claude
-        // sdk spawn to fail with `Invalid Request: Server already initialized`
-        sessionIdGenerator: undefined
-    });
-    await mcp.connect(transport);
-
     //
     // Create the HTTP server
     //
+    // NOTE: Stateless transports (sessionIdGenerator: undefined) are single-use
+    // in @modelcontextprotocol/sdk v1.26.0+. We must create a new transport per
+    // request to avoid "Stateless transport cannot be reused across requests".
+    // We cannot use stateful mode (sessionIdGenerator) because Claude Code's SDK
+    // spawn fails with "Invalid Request: Server already initialized".
+    //
 
     const server = createServer(async (req, res) => {
+        const transport = new StreamableHTTPServerTransport({
+            sessionIdGenerator: undefined
+        });
+        await mcp.connect(transport);
         try {
             await transport.handleRequest(req, res);
         } catch (error) {
