@@ -26,6 +26,16 @@ export function authRoutes(app: Fastify) {
 
         // Create or update user in database
         const publicKeyHex = privacyKit.encodeHex(publicKey);
+        const existing = await db.account.findUnique({ where: { publicKey: publicKeyHex } });
+        if (!existing) {
+            const maxAccounts = parseInt(process.env.MAX_ACCOUNTS || '0', 10);
+            if (maxAccounts > 0) {
+                const count = await db.account.count();
+                if (count >= maxAccounts) {
+                    return reply.code(403).send({ error: 'Registration is closed' });
+                }
+            }
+        }
         const user = await db.account.upsert({
             where: { publicKey: publicKeyHex },
             update: { updatedAt: new Date() },
