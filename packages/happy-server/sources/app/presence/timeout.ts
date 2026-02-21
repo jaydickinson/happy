@@ -12,7 +12,7 @@ export function startTimeout() {
                 where: {
                     active: true,
                     lastActiveAt: {
-                        lte: new Date(Date.now() - 1000 * 60 * 10) // 10 minutes
+                        lte: new Date(Date.now() - 1000 * 90) // 90 seconds
                     }
                 }
             });
@@ -36,7 +36,7 @@ export function startTimeout() {
                 where: {
                     active: true,
                     lastActiveAt: {
-                        lte: new Date(Date.now() - 1000 * 60 * 10) // 10 minutes
+                        lte: new Date(Date.now() - 1000 * 90) // 90 seconds
                     }
                 }
             });
@@ -55,8 +55,8 @@ export function startTimeout() {
                 });
             }
 
-            // Wait for 1 minute
-            await delay(1000 * 60, shutdownSignal);
+            // Wait for 30 seconds
+            await delay(1000 * 30, shutdownSignal);
         }
     });
 }

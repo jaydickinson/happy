@@ -3,6 +3,7 @@ import { Fastify } from "./types";
 import { buildMachineActivityEphemeral, ClientConnection, eventRouter } from "@/app/events/eventRouter";
 import { Server, Socket } from "socket.io";
 import { log } from "@/utils/log";
+import { db } from "@/storage/db";
 import { auth } from "@/app/auth/auth";
 import { decrementWebSocketConnection, incrementWebSocketConnection, websocketEventsCounter } from "../monitoring/metrics2";
 import { usageHandler } from "./socket/usageHandler";
@@ -22,8 +23,8 @@ export function startSocket(app: Fastify) {
             allowedHeaders: ["*"]
         },
         transports: ['websocket', 'polling'],
-        pingTimeout: 45000,
-        pingInterval: 15000,
+        pingTimeout: 20000,
+        pingInterval: 10000,
         path: '/v1/updates',
         allowUpgrades: true,
         upgradeTimeout: 10000,
@@ -120,8 +121,15 @@ export function startSocket(app: Fastify) {
 
             log({ module: 'websocket' }, `User disconnected: ${userId}`);
 
-            // Broadcast daemon offline status
+            // Broadcast daemon offline status and persist to DB
             if (connection.connectionType === 'machine-scoped') {
+                db.machine.updateMany({
+                    where: { id: connection.machineId, active: true },
+                    data: { active: false }
+                }).catch((err) => {
+                    log({ module: 'websocket' }, `Failed to persist machine offline status: ${err}`);
+                });
+
                 const machineActivity = buildMachineActivityEphemeral(connection.machineId, false, Date.now());
                 eventRouter.emitEphemeral({
                     userId,
