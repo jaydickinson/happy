@@ -11,13 +11,14 @@ WORKDIR /repo
 COPY package.json yarn.lock ./
 COPY scripts ./scripts
 
-RUN mkdir -p packages/happy-app packages/happy-server packages/happy-cli packages/happy-agent packages/happy-wire
+RUN mkdir -p packages/happy-app packages/happy-server packages/happy-cli packages/happy-agent packages/happy-wire packages/happy-app-logs
 
 COPY packages/happy-app/package.json packages/happy-app/
 COPY packages/happy-server/package.json packages/happy-server/
 COPY packages/happy-cli/package.json packages/happy-cli/
 COPY packages/happy-agent/package.json packages/happy-agent/
 COPY packages/happy-wire/package.json packages/happy-wire/
+COPY packages/happy-app-logs/package.json packages/happy-app-logs/
 
 # Workspace postinstall requirements
 COPY patches ./patches
