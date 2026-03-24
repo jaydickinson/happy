@@ -14,7 +14,7 @@ export default {
     expo: {
         name,
         slug: "happy",
-        version: "1.6.2",
+        version: "1.7.0",
         runtimeVersion: "20",
         orientation: "default",
         icon: "./sources/assets/images/icon.png",
@@ -51,7 +51,12 @@ export default {
                 "android.permission.POST_NOTIFICATIONS",
             ],
             blockedPermissions: [
-                "android.permission.ACTIVITY_RECOGNITION"
+                "android.permission.ACTIVITY_RECOGNITION",
+                // Not using external storage/media access for now — blocks Google Play photo/video permission declaration
+                "android.permission.READ_EXTERNAL_STORAGE",
+                "android.permission.WRITE_EXTERNAL_STORAGE",
+                "android.permission.READ_MEDIA_IMAGES",
+                "android.permission.READ_MEDIA_VIDEO",
             ],
             edgeToEdgeEnabled: true,
             package: bundleId,
