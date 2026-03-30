@@ -13,10 +13,10 @@ import {
     ActivityIndicator,
     TextInputSelectionChangeEventData,
     NativeSyntheticEvent,
+    Image as RNImage,
 } from 'react-native';
-import { Image } from 'expo-image';
 import { GlassView } from 'expo-glass-effect';
-import { Ionicons, Octicons } from '@expo/vector-icons';
+import { Ionicons, Octicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { Typography } from '@/constants/Typography';
 import { layout } from '@/components/layout';
@@ -955,11 +955,10 @@ function NewSessionScreen() {
                                             onPress={cycleAgent}
                                             style={(p) => [{ flexDirection: 'row', alignItems: 'center', gap: 8 }, p.pressed && styles.configRowPressed]}
                                         >
-                                            <Image
+                                            <RNImage
                                                 source={agentIcons[agent.key]}
-                                                style={{ width: 15, height: 15 }}
-                                                contentFit="contain"
-                                                tintColor={theme.colors.textSecondary}
+                                                style={[styles.agentIcon, { tintColor: theme.colors.textSecondary }]}
+                                                resizeMode="contain"
                                             />
                                             <Text style={styles.configLabel} numberOfLines={1}>
                                                 {agent.label}
@@ -1012,7 +1011,7 @@ function NewSessionScreen() {
                                             style={(p) => [styles.configRow, p.pressed && styles.configRowPressed]}
                                             onPress={() => togglePicker('worktree')}
                                         >
-                                            <Octicons name="git-branch" size={15} color={theme.colors.textSecondary} />
+                                            <MaterialCommunityIcons name="tree" size={15} color={theme.colors.textSecondary} />
                                             <Text style={styles.configLabel} numberOfLines={1}>
                                                 {worktreeLabel}
                                             </Text>
@@ -1061,11 +1060,10 @@ function NewSessionScreen() {
                                         hitSlop={{ top: 4, bottom: 4, left: 4, right: 4 }}
                                         style={(p) => [styles.collapsedIconButton, p.pressed && styles.configRowPressed]}
                                     >
-                                        <Image
+                                        <RNImage
                                             source={agentIcons[agent.key]}
-                                            style={{ width: 14, height: 14 }}
-                                            contentFit="contain"
-                                            tintColor={theme.colors.textSecondary}
+                                            style={[styles.collapsedAgentIcon, { tintColor: theme.colors.textSecondary }]}
+                                            resizeMode="contain"
                                         />
                                     </Pressable>
 
@@ -1091,7 +1089,7 @@ function NewSessionScreen() {
                                             hitSlop={{ top: 4, bottom: 4, left: 4, right: 4 }}
                                             style={(p) => [styles.collapsedIconButton, p.pressed && styles.configRowPressed]}
                                         >
-                                            <Octicons name="git-branch" size={14} color={theme.colors.textSecondary} />
+                                            <MaterialCommunityIcons name="tree" size={14} color={theme.colors.textSecondary} />
                                         </Pressable>
                                     )}
                                 </View>
@@ -1319,6 +1317,14 @@ const styles = StyleSheet.create((theme) => ({
     },
     configRowPressed: {
         opacity: 0.6,
+    },
+    agentIcon: {
+        width: 15,
+        height: 15,
+    },
+    collapsedAgentIcon: {
+        width: 14,
+        height: 14,
     },
     configLabel: {
         fontSize: 14,
