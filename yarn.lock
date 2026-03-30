@@ -987,10 +987,10 @@
   dependencies:
     "@types/hammerjs" "^2.0.36"
 
-"@electric-sql/pglite@^0.3.15":
-  version "0.3.15"
-  resolved "https://registry.yarnpkg.com/@electric-sql/pglite/-/pglite-0.3.15.tgz#073409dc9a6b0c2af2626d02af8c226293c6b059"
-  integrity sha512-Cj++n1Mekf9ETfdc16TlDi+cDDQF0W7EcbyRHYOAeZdsAe8M/FJg18itDTSwyHfar2WIezawM9o0EKaRGVKygQ==
+"@electric-sql/pglite@0.3.16":
+  version "0.3.16"
+  resolved "https://registry.yarnpkg.com/@electric-sql/pglite/-/pglite-0.3.16.tgz#a89c432a6bc35359617922dc9b24589af4a63812"
+  integrity sha512-mZkZfOd9OqTMHsK+1cje8OSzfAQcpD7JmILXTl5ahdempjUDdmg4euf1biDex5/LfQIDJ3gvCu6qDgdnDxfJmA==
 
 "@elevenlabs/client@0.12.2":
   version "0.12.2"
