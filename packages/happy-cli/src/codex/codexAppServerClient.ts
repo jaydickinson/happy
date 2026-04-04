@@ -58,7 +58,7 @@ export type ApprovalHandler = (params: {
  */
 function isAppServerAvailable(): boolean {
     try {
-        const version = execSync('codex --version', { encoding: 'utf8' }).trim();
+        const version = execSync('codex --version', { encoding: 'utf8', windowsHide: true }).trim();
         const match = version.match(/codex-cli\s+(\d+\.\d+\.\d+)/);
         if (!match) return false;
         const [, ver] = match;
@@ -376,9 +376,11 @@ export class CodexAppServerClient {
 
         if (!isAppServerAvailable()) {
             throw new Error(
-                'Codex CLI not found or too old for app-server.\n\n' +
-                'To install codex:\n  npm install -g @openai/codex\n\n' +
-                'Alternatively, use Claude:\n  happy claude',
+                'Codex CLI is not installed\n\n' +
+                'Please install Codex CLI using one of these methods:\n\n' +
+                'Option 1 - npm (recommended):\n  npm install -g @openai/codex\n\n' +
+                'Option 2 - Homebrew (macOS):\n  brew install --cask codex\n\n' +
+                'Alternatively, use Claude Code:\n  happy claude',
             );
         }
 
@@ -422,6 +424,7 @@ export class CodexAppServerClient {
         const proc = spawn(command, args, {
             stdio: ['pipe', 'pipe', 'pipe'],
             env,
+            windowsHide: true,
         });
         this.process = proc;
 
