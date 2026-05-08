@@ -1,74 +1,91 @@
-# Changelog
+# May 7 — New sidebar, code editor, session branching
 
-## Version 7 - 2026-04-03
+Desktop got a full refresh with a file browser, built-in editor, and zen mode. Sessions can now be branched or rewound.
 
-Added support for the latest Gemini models in the model picker, so you can take advantage of Google's newest and most powerful AI capabilities.
+- Thinking effort selection bug fixed.
+- Smarter push notifications — suppressed when you're already in the app.
+- Unread dots persist on sessions until you open them.
+- Redesigned sidebar with file browser, code editor, and zen mode.
+- Fixed stale sessions refusing to load, blank screen on launch, dual cursors in remote mode, `claude --resume` not finding Happy sessions.
 
-- Added Gemini 3.1 Pro, Gemini 3 Flash, and Gemini 3.1 Flash Lite to the model picker
-- Gemini 3.x models now appear at the top of the list for quick access
-- Gemini 2.5 models remain available for stability
+Experimental — enable in Settings → Features:
+- File diffs sidebar — see git changes next to chat on desktop.
+- Session fork & rewind — branch off any session or roll back to any message.
 
-## Version 6 - 2026-03-19
+# April 26 — Voice fixes, diffs, scroll
 
-This is the biggest update since launch — a redesigned session creation experience, Git worktree management, expanded agent support.
+Voice actually works reliably now, plus better content rendering.
 
-- New session composer screen with machine selection, worktree picker, draft persistence, and offline machine visibility.
-- Git worktree management — list, create, and select worktrees from the app. Worktrees auto-cleanup on session delete.
-- Automatic plan mode switching when your agent enters planning mode.
-- OpenClaw added as a selectable AI agent alongside Claude Code and Codex.
-- Session quick actions for faster interaction with active sessions.
-- Session resume support — pick up where you left off.
-- Delete sessions directly from the session info screen.
-- Renamed "bypass" permission mode to "yolo" with updated styling.
-- Improved markdown rendering and message formatting.
-- Improved message sync reliability with edge case fixes.
-- Various UI polish: send spinner, hidden internal tool calls, improved spacing.
+- Voice calls no longer break on second session.
+- Tables and code blocks scroll horizontally.
+- New diff viewer with syntax highlighting and unified/split toggle.
+- Model and effort choices persist on mobile.
+- Permission prompts no longer get lost.
+- Settings stop randomly resetting during sync.
+- Scroll-to-bottom button in chat.
+- Delete machines from settings.
 
-## Version 5 - 2025-12-22
+# April 8 — Gemini models, voice onboarding, CLI fixes
 
-This release expands AI agent support and refines the voice experience, while improving markdown rendering for a better chat experience.
+New models, smoother onboarding, fewer CLI hangs.
 
-- We are working on adding Gemini support using ACP and hopefully fixing codex stability issues using the same approach soon! Stay tuned.
-- Removed model configurations from agents. We were not able to keep up with the models so for now we are removing the configuration from the mobile app. You can still configure it through your CLIs, happy will simply use defaults.
-- Elevenlabs ... is epxensive. Voice conversations will soon require a subscription after 3 free trials - we'll soon allow connecting your own ElevenLabs agent if you want to manage your own spendings.
-- Improved markdown table rendering in chat - no more ASCII pipes `|--|`, actual formatted tables (layout still needs work, but much better!)
+- Latest Gemini models in the picker.
+- Better voice onboarding — clearer first-run prompts.
+- CLI plan approval buttons actually show up now.
+- CLI background tasks and Codex turns no longer hang.
 
-## Version 4 - 2025-09-12
+# March 19 — New session screen, git worktrees, more agents
 
-This release revolutionizes remote development with Codex integration and Daemon Mode, enabling instant AI assistance from anywhere. Start coding sessions with a single tap while maintaining complete control over your development environment.
+Completely new way to start sessions, plus worktree support and more agents.
 
-- Introduced Codex support for advanced AI-powered code completion and generation capabilities.
-- Implemented Daemon Mode as the new default, enabling instant remote session initiation without manual CLI startup.
-- Added one-click session launch from mobile devices, automatically connecting to your development machine.
-- Added ability to connect anthropic and gpt accounts to account
+- New session composer — pick machine, worktree, draft persists.
+- Git worktree management from the app. Auto-cleanup on delete.
+- Auto plan mode when your agent enters planning.
+- OpenClaw as a selectable agent.
+- Session quick actions, resume, delete from info screen.
+- "Bypass" renamed to "yolo".
 
-## Version 3 - 2025-08-29
+# December 22 — Agent updates, voice changes, tables
 
-This update introduces seamless GitHub integration, bringing your developer identity directly into Happy while maintaining our commitment to privacy and security.
+Agent config changes and voice pricing heads-up.
 
-- Added GitHub account connection through secure OAuth authentication flow
-- Integrated profile synchronization displaying your GitHub avatar, name, and bio
-- Implemented encrypted token storage on our backend for additional security protection
-- Enhanced settings interface with personalized profile display when connected
-- Added one-tap GitHub disconnect functionality with confirmation protection
-- Improved account management with clear connection status indicators
+- Gemini support coming via ACP.
+- Model config removed from app — use CLI defaults.
+- Voice going subscription after 3 free trials.
+- Markdown tables render properly now.
 
-## Version 2 - 2025-06-26
+# September 12 — Codex, daemon mode, one-tap launch
 
-This update focuses on seamless device connectivity, visual refinements, and intelligent voice interactions for an enhanced user experience.
+Sessions start instantly now. No more manual CLI startup.
 
-- Added QR code authentication for instant and secure device linking across platforms
-- Introduced comprehensive dark theme with automatic system preference detection
-- Improved voice assistant performance with faster response times and reduced latency
-- Added visual indicators for modified files directly in the session list
-- Implemented preferred language selection for voice assistant supporting 15+ languages
+- Codex support for code completion and generation.
+- Daemon mode — sessions start instantly without manual CLI startup.
+- One-tap launch from mobile.
+- Connect Anthropic and GPT accounts.
 
-## Version 1 - 2025-05-12
+# August 29 — GitHub integration
 
-Welcome to Happy - your secure, encrypted mobile companion for Claude Code. This inaugural release establishes the foundation for private, powerful AI interactions on the go.
+Your GitHub identity in Happy.
 
-- Implemented end-to-end encrypted session management ensuring complete privacy
-- Integrated intelligent voice assistant with natural conversation capabilities
-- Added experimental file manager with syntax highlighting and tree navigation
-- Built seamless real-time synchronization across all your devices
-- Established native support for iOS, Android, and responsive web interfaces
+- Connect your GitHub account via OAuth.
+- Avatar, name, and bio sync to the app.
+- Encrypted token storage.
+
+# June 26 — QR login, dark mode, voice
+
+Link devices instantly, look good doing it.
+
+- QR code auth for instant device linking.
+- Dark theme with system preference detection.
+- Faster voice responses.
+- Modified file indicators in session list.
+- 15+ languages for voice.
+
+# May 12 — Hello world
+
+First release. Everything is new.
+
+- E2E encrypted sessions.
+- Voice assistant.
+- File manager with syntax highlighting.
+- Real-time sync across devices.

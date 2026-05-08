@@ -9,10 +9,12 @@ const bundleId = {
     preview: "com.slopus.happy.preview",
     production: "com.ex3ndr.happy"
 }[variant];
+// const stagingElevenLabsAgentId = 'agent_7801k2c0r5hjfraa1kdbytpvs6yt';
+const productionElevenLabsAgentId = 'agent_6701k211syvvegba4kt7m68nxjmw';
 const elevenLabsAgentId = {
-    development: 'agent_7801k2c0r5hjfraa1kdbytpvs6yt',
-    preview: 'agent_7801k2c0r5hjfraa1kdbytpvs6yt',
-    production: 'agent_6701k211syvvegba4kt7m68nxjmw',
+    development: productionElevenLabsAgentId,
+    preview: productionElevenLabsAgentId,
+    production: productionElevenLabsAgentId,
 }[variant];
 const consoleLoggingDefault = {
     development: true,
@@ -39,7 +41,18 @@ export default {
             infoPlist: {
                 NSMicrophoneUsageDescription: "Allow $(PRODUCT_NAME) to access your microphone for voice conversations with AI.",
                 NSLocalNetworkUsageDescription: "Allow $(PRODUCT_NAME) to find and connect to local devices on your network.",
-                NSBonjourServices: ["_http._tcp", "_https._tcp"]
+                NSBonjourServices: ["_http._tcp", "_https._tcp"],
+                // ATS:
+                // - NSAllowsLocalNetworking: lets HTTP fetches reach LAN
+                //   addresses (e.g. self-hosted server at 192.168.x.y) without
+                //   forcing TLS. Production cloud server is HTTPS, so the
+                //   default policy still applies there.
+                // - In dev/preview only, allow arbitrary HTTP loads so a
+                //   developer pointing the app at their machine doesn't have
+                //   to ship a TLS cert just to test attachment uploads.
+                NSAppTransportSecurity: variant === 'production'
+                    ? { NSAllowsLocalNetworking: true }
+                    : { NSAllowsLocalNetworking: true, NSAllowsArbitraryLoads: true }
             },
             associatedDomains: variant === 'production' ? ["applinks:app.happy.engineering"] : []
         },

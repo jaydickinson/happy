@@ -55,6 +55,7 @@ import {
     type ModelMode,
     type EffortLevel,
 } from '@/components/modelModeOptions';
+import { isRunningOnMac } from '@/utils/platform';
 
 // Agent icon assets
 const agentIcons = {
@@ -488,10 +489,11 @@ function NewSessionScreen() {
     const selectedPath = draft.selectedPath;
     const setSelectedPath = draft.setPath;
     const [worktreeKey, setWorktreeKey] = React.useState<string>(
-        draft.sessionType === 'worktree' ? '__new__' : '__none__'
+        draft.worktreeKey ?? (draft.sessionType === 'worktree' ? '__new__' : '__none__')
     );
     React.useEffect(() => {
         draft.setSessionType(worktreeKey !== '__none__' ? 'worktree' : 'simple');
+        draft.setWorktreeKey(worktreeKey === '__none__' || worktreeKey === '__new__' ? null : worktreeKey);
     }, [worktreeKey]);
 
     // Local-only UI state (not persisted)
@@ -675,9 +677,18 @@ function NewSessionScreen() {
 
     const hasText = prompt.trim().length > 0;
 
-    // Auto collapse config once when user starts typing, never auto-expand again
+    // Auto collapse config once when user starts typing (mobile only)
+    // On desktop (web / Mac Catalyst) the panel stays expanded
+    // Also skip collapsing on the initial render when draft text is restored
     const hasCollapsedOnceRef = React.useRef(false);
+    const isInitialRef = React.useRef(true);
+    const isDesktop = Platform.OS === 'web' || isRunningOnMac();
     React.useEffect(() => {
+        if (isInitialRef.current) {
+            isInitialRef.current = false;
+            return;
+        }
+        if (isDesktop) return;
         if (hasText && !hasCollapsedOnceRef.current) {
             hasCollapsedOnceRef.current = true;
             LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -834,7 +845,7 @@ function NewSessionScreen() {
 
                     // Send initial message if provided
                     if (prompt.trim()) {
-                        await sync.sendMessage(result.sessionId, prompt.trim());
+                        await sync.sendMessage(result.sessionId, prompt.trim(), { source: 'new_session' });
                     }
 
                     router.back();
