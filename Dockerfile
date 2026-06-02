@@ -38,7 +38,9 @@ COPY packages/happy-wire ./packages/happy-wire
 COPY packages/happy-server ./packages/happy-server
 
 RUN pnpm --filter @slopus/happy-wire build
-RUN pnpm --filter happy-server-self-host build
+# Only typecheck; the runtime CMD executes sources via tsx and does not use
+# the bun-bundled dist output, so we skip build-runtime (avoids needing bun).
+RUN pnpm --filter happy-server-self-host typecheck
 
 # Stage 3: runtime
 FROM node:20.18.0-slim AS runner
